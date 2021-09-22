@@ -1,25 +1,11 @@
 import { Router } from "express";
 
-import { IngredientRepository } from "@repositories/ingrediente/IngredientRepository";
-import { CreateIngredientService } from "@services/ingredient/CreateIngredientService";
+import { IngredientController } from "../controller/IngredientController";
 
-const ingredientRepository = new IngredientRepository();
-const createIngredientService = new CreateIngredientService(
-  ingredientRepository
-);
+const ingredientController = new IngredientController();
 
 const ingredientRoutes = Router();
 
-ingredientRoutes.post("/", (request, response) => {
-  const { name, unitMeasurement, unitPrice } = request.body;
+ingredientRoutes.post("/", ingredientController.create);
 
-  const ingredient = createIngredientService.execute({
-    name,
-    measurement_unit: unitMeasurement,
-    unit_price: unitPrice,
-  });
-
-  return response.status(201).json(ingredient);
-});
-
-export {ingredientRoutes}
+export { ingredientRoutes };
