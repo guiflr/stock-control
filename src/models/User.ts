@@ -1,9 +1,8 @@
-class User {
-  id: string;
+class User { 
+  _id: string;
   username: string;
   password: string;
   token: string;
-  admin: boolean;
 }
 
 export { User };

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { UserRepository } from "../repositories/user/UserRepository";
 
-import { LoginUser } from "../services/user/LoginUser";
+import { LoginUserService } from "../services/user/LoginUserService";
 import { CreateUserService } from "../services/user/CreateUserService";
 
 const userRepository = new UserRepository();
@@ -11,9 +11,9 @@ class UserController {
   async find(request: Request, response: Response) {
     const { username, password } = request.body;
 
-    const loginUser = new LoginUser(userRepository);
+    const loginUserService = new LoginUserService(userRepository);
 
-    const user = await loginUser.execute({ username, password });
+    const user = await loginUserService.execute({ username, password });
 
     return response.json(user);
   }

@@ -2,12 +2,12 @@ import { User } from "../../models/User";
 
 interface IUserDTO {
   username: string;
-  password: string;
+  password?: string;
   admin?: boolean;
 }
 
 interface IUser {
-  findUser({ username, password }: IUserDTO): Promise<User>;
+  findUserByUsername({ username, password }: IUserDTO): Promise<User>;
   create({ username, password }: IUserDTO): Promise<User>;
 }
 

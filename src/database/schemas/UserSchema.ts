@@ -13,15 +13,7 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: true,
-    },
-    token: {
-      type: String,
-      required: false,
-    },
-    admin: {
-      type: Boolean,
-      default: 0,
-    },
+    },   
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 ).pre("save", async function (next) {
@@ -30,6 +22,6 @@ const UserSchema = new Schema(
   this.password = hash;
 
   next();
-});
+})
 
 export default mongoose.model<User>("User", UserSchema);

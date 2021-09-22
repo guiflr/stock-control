@@ -4,12 +4,8 @@ import { IUser, IUserDTO } from "./IUserRepository";
 import UserSchema from "../../database/schemas/UserSchema";
 
 class UserRepository implements IUser {
-  async findUser({ username, password }: IUserDTO): Promise<User> {
-    const user = new User();
-
-    const data = { username, password };
-
-    Object.assign(user, data);
+  async findUserByUsername({ username }: IUserDTO): Promise<User> {
+    const user = await UserSchema.findOne({ username });
 
     return user;
   }
@@ -17,7 +13,7 @@ class UserRepository implements IUser {
   async create({ username, password, admin = false }: IUserDTO): Promise<User> {
     const data = { username, password, admin };
 
-    const user = await UserSchema.create(data);   
+    const user = await UserSchema.create(data);
 
     return user;
   }

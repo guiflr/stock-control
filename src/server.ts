@@ -1,4 +1,5 @@
 import "express-async-errors";
+import "dotenv/config"
 
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
@@ -20,10 +21,11 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/user", userRoutes);
-app.use("/ingredient", ingredientRoutes);
+app.use("/ingredients", ingredientRoutes);
 
 app.use(
   (error: Error, request: Request, response: Response, _: NextFunction) => {   
+    console.log(error)
     if (error instanceof AppError) {
       return response.status(error.status).json({ message: error.message });
     }
