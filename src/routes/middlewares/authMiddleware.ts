@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express";
-import { decode, verify } from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 
-import { UserRepository } from "../../repositories/user/UserRepository";
-import { LoginUserService } from "../../services/user/LoginUserService";
+import { User } from "../../models/User";
 
 import { AppError } from "../../errors/AppError";
 
-const userRepository = new UserRepository();
+interface Token {
+  user: User;
+}
 
 export default async function authMiddleware(
   request: Request,
@@ -19,19 +20,20 @@ export default async function authMiddleware(
     throw new AppError("Token not provider", 401);
   }
 
-  console.log(bearer);
-
   const [_, token] = bearer.split(" ");
-
-  console.log(token);
 
   if (!token) {
     throw new AppError("Token not provider", 401);
   }
 
   try {
-    const decoded = verify(token, process.env.AUTH_SECRET);
-    console.log(decoded);
+    const decodedToken = verify(token, process.env.AUTH_SECRET);
+
+    const { user } = decodedToken as Token;
+
+    request.user = {
+      ...user,
+    };
 
     next();
   } catch {

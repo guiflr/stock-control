@@ -1,17 +1,36 @@
-import { Ingredient } from "@models/Ingredient";
+import { Ingredient } from "../../models/Ingredient";
 
 interface ICreateDTO {
   name: string;
   measurement_unit: string;
   unit_price: Number;
 }
-
-interface IIngredientRepository {
-  create({ name, measurement_unit, unit_price }: ICreateDTO): Ingredient;
-  list(): Ingredient[] | [];
-  update({ name, measurement_unit, unit_price }: ICreateDTO): void;
+interface IUpdateDTO {
+  id: string;
+  name: string;
+  measurement_unit: string;
+  unit_price: Number;
 }
 
-export { ICreateDTO, IIngredientRepository };
+interface IDeleteDTO {
+  id: string;
+}
 
+interface IIngredientRepository {
+  create({
+    name,
+    measurement_unit,
+    unit_price,
+  }: ICreateDTO): Promise<Ingredient>;
+  list(): Promise<Ingredient[]> | [];
+  update({
+    name,
+    measurement_unit,
+    unit_price,
+    id,
+  }: IUpdateDTO): Promise<Ingredient>;
+  delete({ id }: IDeleteDTO): Promise<Ingredient>;
+  findById(id: string): Promise<Ingredient>;
+}
 
+export { ICreateDTO, IIngredientRepository, IUpdateDTO, IDeleteDTO };
