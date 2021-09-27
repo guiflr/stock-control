@@ -1,4 +1,5 @@
 class Ingredient {
+  _id?: string;
   id: string;
   ingredient_current_stock?: any;
   name: string;

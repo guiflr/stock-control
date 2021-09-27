@@ -8,7 +8,7 @@ const ingredientController = new IngredientInOutController();
 
 const ingredientInOutRoutes = Router();
 
-ingredientInOutRoutes.post("/:ingredient_id", authMiddleware, ingredientController.create);
+ingredientInOutRoutes.post("/:id", authMiddleware, ingredientController.create);
 // ingredientRoutes.put("/:id", authMiddleware, ingredientController.update);
 // ingredientRoutes.delete("/:id", authMiddleware, ingredientController.delete);
 

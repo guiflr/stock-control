@@ -23,9 +23,9 @@ class UserController {
 
     const createUserService = new CreateUserService(userRepository);
 
-    const user = await createUserService.execute({ username, password, admin });
+    await createUserService.execute({ username, password, admin });
 
-    return response.json(user);
+    return response.status(201).send();
   }
 }
 

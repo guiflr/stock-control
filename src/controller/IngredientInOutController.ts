@@ -8,7 +8,7 @@ const ingredientInOutRepository = new IngredientInOutRepository();
 
 class IngredientInOutController {
   async create(request: Request, response: Response) {
-    const { ingredient_id } = request.params;
+    const { id } = request.params;
     const { type, quantity } = request.body;
 
     const createIngredientInOutService = new CreateIngredientInOutService(
@@ -16,7 +16,7 @@ class IngredientInOutController {
     );
 
     const ingredientInOut = await createIngredientInOutService.execute({
-      ingredient_id,
+      id,
       type,
       quantity,
     });

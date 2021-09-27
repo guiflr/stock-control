@@ -9,29 +9,23 @@ import { ingredientInOutSchema } from "../../validators/IngredientInOutValidator
 import { AppError } from "../../errors/AppError";
 
 interface IRequest {
-  ingredient_id: string;
+  id: string;
   quantity: string;
   type: string;
 }
 
 class CreateIngredientInOutService {
   constructor(private ingredientInOut: IIngredientInOutRepository) {}
-  async execute({
-    quantity,
-    ingredient_id,
-    type,
-  }: IRequest): Promise<IngredientInOut> {
+  async execute({ quantity, id, type }: IRequest): Promise<IngredientInOut> {
     const ingredientRepository = new IngredientRepository();
     const ingredientCurrentStockRepository =
       new IngredientCurrentStockRepository();
 
-    if (!ingredient_id.match(/^[0-9a-fA-F]{24}$/)) {
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       throw new AppError("Ingredient not found", 404);
     }
 
-    const ingredientsExists = await ingredientRepository.findById(
-      ingredient_id
-    );
+    const ingredientsExists = await ingredientRepository.findById(id);
 
     if (!ingredientsExists) {
       throw new AppError("Ingredient not found", 404);
@@ -44,7 +38,7 @@ class CreateIngredientInOutService {
     }
 
     const currentStockTotal =
-      await ingredientCurrentStockRepository.findByIngredientId(ingredient_id);
+      await ingredientCurrentStockRepository.findByIngredientId(id);
 
     if (!currentStockTotal && type === "out") {
       throw new AppError("Ingredient insufficient stock", 400);
@@ -58,7 +52,7 @@ class CreateIngredientInOutService {
 
     if (!currentStockTotal) {
       await ingredientCurrentStockRepository.create({
-        ingredient_id,
+        ingredient_id: id,
         quantity: receivQuantity.toString(),
       });
     } else {
@@ -73,7 +67,7 @@ class CreateIngredientInOutService {
       }
 
       await ingredientCurrentStockRepository.updateByIngredientId({
-        ingredient_id,
+        ingredient_id: id,
         quantity: newStockValue.toString(),
       });
     }
@@ -91,7 +85,7 @@ class CreateIngredientInOutService {
 
     const ingredientStock = await this.ingredientInOut.create({
       ...data,
-      ingredient_id,
+      ingredient_id: id,
     });
 
     return ingredientStock;

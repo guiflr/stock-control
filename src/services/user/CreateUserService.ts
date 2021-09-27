@@ -13,8 +13,16 @@ interface IRequest {
 class CreateUserService {
   constructor(private userRepository: UserRepository) {}
 
-  async execute({ password, username, admin}: IRequest): Promise<User> {
+  async execute({ password, username, admin }: IRequest): Promise<User> {
     const data = { password, username, admin };
+
+    const userAlreadyExists = await this.userRepository.findUserByUsername({
+      username,
+    });
+
+    if (userAlreadyExists) {
+      throw new AppError("User already exists", 400);
+    }
 
     try {
       await userSchema.validate(data);
