@@ -13,11 +13,24 @@ const productRoutes = Router();
 productRoutes.post("/", authMiddleware, productController.create);
 productRoutes.put("/:id", authMiddleware, productController.update);
 productRoutes.delete("/:id", authMiddleware, productController.delete);
+
 productRoutes.post(
   "/:id/ingredients",
   authMiddleware,
   productCompositionController.create
 );
+productRoutes.put(
+  "/:id/ingredients",
+  authMiddleware,
+  productCompositionController.update
+);
+productRoutes.delete(
+  "/:id/ingredients",
+  authMiddleware,
+  productCompositionController.delete
+);
+
+productRoutes.get("/availability/:id", productController.availability);
 
 productRoutes.get("/", productController.listAll);
 

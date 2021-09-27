@@ -3,7 +3,7 @@ import {
   IIngredientCurrentStockDTO,
 } from "./IIngredientCurrentStockRepository";
 
-import IngredientCurrentStock from "../../database/schemas/IngredientCurrentStock";
+import IngredientCurrentStock from "../../database/schemas/IngredientCurrentStockSchema";
 
 class IngredientCurrentStockRepository implements IIngredientCurrentStock {
   async create({

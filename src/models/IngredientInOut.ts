@@ -1,6 +1,6 @@
 class IngredientInOut {
   ingredient_id: string;
-  quantity: Number;
+  quantity: string;
   type: string;
 }
 

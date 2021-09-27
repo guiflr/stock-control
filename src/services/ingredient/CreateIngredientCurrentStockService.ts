@@ -4,7 +4,7 @@ import { AppError } from "../../errors/AppError";
 
 interface ICreate {
   ingredient_id: string;
-  quantity: Number;
+  quantity: string;
 }
 
 class CreateIngredientCurrentStockService {
@@ -18,9 +18,9 @@ class CreateIngredientCurrentStockService {
     if (!Number(quantity)) {
       throw new AppError("Quantity invalid type or not sent", 404);
     }
-    
+
     const currentStock = await this.ingredientCurrentStock.create({
-      quantity,
+      quantity: quantity.toString(),
       ingredient_id,
     });
 

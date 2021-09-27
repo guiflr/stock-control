@@ -6,7 +6,7 @@ import { AppError } from "../../errors/AppError";
 
 interface IngredientData {
   ingredient_id: string;
-  ingredient_quantity: Number;
+  ingredient_quantity: string;
 }
 
 interface IRequest {
@@ -29,15 +29,14 @@ class CreateProductCompositionService {
     }
 
     const bulkData = ingredients.map((ingredient) => ({
-      product_id,
       ...ingredient,
+      ingredient_quantity: Number(ingredient.ingredient_quantity).toFixed(3),
+      product_id,
     }));
-
-    console.log("$$$$$$$$", bulkData);
 
     const product = await this.productComposition.create(...bulkData);
 
-    return true;
+    return !!product;
   }
 }
 

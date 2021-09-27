@@ -7,7 +7,7 @@ import { AppError } from "../../errors/AppError";
 interface IRequest {
   name: string;
   measurement_unit: string;
-  unit_price: Number;
+  unit_price: string;
 }
 
 class CreateIngredientService {
@@ -20,7 +20,7 @@ class CreateIngredientService {
     const data = {
       name,
       measurement_unit,
-      unit_price,
+      unit_price: unit_price,
     };
 
     try {

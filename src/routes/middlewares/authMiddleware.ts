@@ -37,6 +37,6 @@ export default async function authMiddleware(
 
     next();
   } catch {
-    throw new AppError("Isn't valid token", 401);
+    throw new AppError("Isn't a valid token", 401);
   }
 }

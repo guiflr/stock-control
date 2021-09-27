@@ -2,12 +2,12 @@ import { Product } from "../../models/Product";
 
 interface IProductDTO {
   name: string;
-  price: Number;
+  price: string;
 }
 
 interface IProductUpdateDTO {
   name: string;
-  price: Number;
+  price: string;
   id: string;
 }
 

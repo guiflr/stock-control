@@ -16,7 +16,7 @@ class CreateProductService {
   async execute({ name, price }: IRequest) {
     const data = {
       name,
-      price,
+      price: price.toString(),
     };
 
     try {

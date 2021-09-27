@@ -5,13 +5,13 @@ import { AppError } from "../../errors/AppError";
 
 interface IRequest {
   name: string;
-  price: Number;
+  price: string;
   id: string;
 }
 
 interface IResponse {
   name: string;
-  price: Number;
+  price: string;
 }
 
 class UpdateProductService {
@@ -31,7 +31,7 @@ class UpdateProductService {
     const data = {
       id,
       name,
-      price,
+      price: price,
     };
 
     try {

@@ -24,10 +24,10 @@ class UpdateIngredientService {
     const data = {
       name,
       measurement_unit,
-      unit_price,
-    };    
+      unit_price: unit_price.toFixed(2),
+    };
 
-    if (!(id.match(/^[0-9a-fA-F]{24}$/))) {
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       throw new AppError("Ingredient not found", 404);
     }
 

@@ -17,7 +17,7 @@ class ProductRepository implements IProduct {
       path: "ingredients",
       select: "product_id  ingredient_id ingredient_quantity -_id",
       populate: {
-        path: "ingredient_id",
+        path: "ingredient",
         select: "name measurement_unit unit_price",
       },
     });
@@ -41,6 +41,18 @@ class ProductRepository implements IProduct {
     const product = await ProductSchema.findById(id);
 
     return product;
+  }
+
+  async availability(id: string) {
+    const products = await ProductSchema.findOne({ _id: id }).populate({
+      path: "ingredients",
+      select: "product_id  ingredient_id ingredient_quantity -_id",
+      populate: {
+        path: "ingredient ingredient_current_stock",
+      },
+    });
+
+    return products;
   }
 }
 

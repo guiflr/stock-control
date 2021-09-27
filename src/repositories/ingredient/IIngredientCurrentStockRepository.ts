@@ -1,5 +1,5 @@
 interface IIngredientCurrentStockDTO {
-  quantity: Number;
+  quantity: string;
   ingredient_id: string;
 }
 

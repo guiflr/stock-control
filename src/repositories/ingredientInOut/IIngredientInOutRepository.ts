@@ -2,7 +2,7 @@ import { IngredientInOut } from "../../models/IngredientInOut";
 
 interface IIngredientInOutDTO {
   ingredient_id: string;
-  quantity: Number;
+  quantity: string;
   type: string;
 }
 

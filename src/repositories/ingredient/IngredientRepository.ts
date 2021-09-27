@@ -21,7 +21,13 @@ class IngredientRepository implements IIngredientRepository {
   }
 
   async list(): Promise<Ingredient[]> {
-    const ingredients = await IngredientSchema.find().select('name measurement_unit unit_price').populate("ingredient_stock_inputs", "type quantity -_id");
+    const ingredients = await IngredientSchema.find()
+      .select("name measurement_unit unit_price")
+      .populate({
+        path: "ingredient_current_stock",
+        select: "quantity -_id",
+        limit: 1,
+      });
 
     return ingredients;
   }

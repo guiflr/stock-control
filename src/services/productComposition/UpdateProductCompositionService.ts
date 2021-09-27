@@ -1,44 +1,41 @@
 import { IProductComposition } from "../../repositories/productComposition/IProductCompositionRepository";
 
-import { productCompositionSchema } from "../../validators/productCompositionValidator";
+import {
+  productCompositionSchema,
+  productUpdateCompositionSchema,
+} from "../../validators/productCompositionValidator";
 
 import { AppError } from "../../errors/AppError";
 
-interface IngredientData {
-  ingredient_id: string;
-  ingredient_quantity: Number;
-}
-
 interface IRequest {
   product_id: string;
-  ingredients: IngredientData[];
+  ingredient_id: string;
+  ingredient_quantity: string;
 }
 
-class CreateProductCompositionService {
+class UpdateProductCompositionService {
   constructor(private productComposition: IProductComposition) {}
-  async execute({ product_id, ingredients }: IRequest): Promise<Boolean> {
+  async execute({
+    product_id,
+    ingredient_id,
+    ingredient_quantity,
+  }: IRequest): Promise<Boolean> {
     const data = {
       product_id,
-      ingredients,
+      ingredient_id,
+      ingredient_quantity,
     };
 
     try {
-      await productCompositionSchema.validate(data);
+      await productUpdateCompositionSchema.validate(data);
     } catch (err) {
       throw new AppError(err.message, 400);
     }
 
-    const bulkData = ingredients.map((ingredient) => ({
-      product_id,
-      ...ingredient,
-    }));
+    const product = await this.productComposition.update(data);
 
-    console.log("$$$$$$$$", bulkData);
-
-    const product = await this.productComposition.create(...bulkData);
-
-    return true;
+    return product;
   }
 }
 
-export { CreateProductCompositionService };
+export { UpdateProductCompositionService };

@@ -14,7 +14,7 @@ const IngredientSchema = new Schema(
       required: true,
     },
     unit_price: {
-      type: Number,
+      type: mongoose.Types.Decimal128,
       required: true,
     },
   },
@@ -31,6 +31,13 @@ IngredientSchema.virtual("ingredient_stock_inputs", {
   ref: "IngredientInOut",
   localField: "_id",
   foreignField: "ingredient_id",
+});
+
+IngredientSchema.virtual("ingredient_current_stock", {
+  ref: "IngredientCurrentStock",
+  localField: "_id",
+  foreignField: "ingredient_id",
+  justOne: false,
 });
 
 IngredientSchema.set("toObject", { virtuals: true });

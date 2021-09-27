@@ -11,7 +11,7 @@ const IngredientInOutSchema = new Schema(
       required: true,
     },
     quantity: {
-      type: Number,
+      type: mongoose.Types.Decimal128,
       required: true,
     },
     ingredient_id: {
@@ -20,7 +20,13 @@ const IngredientInOutSchema = new Schema(
     },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
-);
+).pre("save", function (next) {
+  const quantity = Number(this.quantity);
+
+  this.quantity = quantity.toFixed(3);
+
+  next();
+});
 
 export default mongoose.model<IngredientInOut>(
   "IngredientInOut",

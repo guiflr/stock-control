@@ -10,9 +10,9 @@ const ProductSchema = new Schema(
       required: true,
     },
     price: {
-      type: Number,
+      type: mongoose.Types.Decimal128,
       required: true,
-    },   
+    },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 ).pre("save", function (next) {

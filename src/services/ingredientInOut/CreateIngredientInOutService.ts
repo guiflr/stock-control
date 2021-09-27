@@ -10,7 +10,7 @@ import { AppError } from "../../errors/AppError";
 
 interface IRequest {
   ingredient_id: string;
-  quantity: Number;
+  quantity: string;
   type: string;
 }
 
@@ -37,7 +37,9 @@ class CreateIngredientInOutService {
       throw new AppError("Ingredient not found", 404);
     }
 
-    if (!Number(quantity) || quantity < 0) {
+    const receivQuantity = Number(quantity);
+
+    if (!receivQuantity || receivQuantity < 0) {
       throw new AppError("Invalid field quantity", 400);
     }
 
@@ -48,34 +50,36 @@ class CreateIngredientInOutService {
       throw new AppError("Ingredient insufficient stock", 400);
     }
 
-    if (currentStockTotal?.quantity < quantity && type === "out") {
+    const currentStockQuantiry = Number(currentStockTotal?.quantity);
+
+    if (currentStockQuantiry < receivQuantity && type === "out") {
       throw new AppError("Ingredient insufficient stock", 400);
     }
 
     if (!currentStockTotal) {
       await ingredientCurrentStockRepository.create({
         ingredient_id,
-        quantity,
+        quantity: receivQuantity.toString(),
       });
     } else {
       let newStockValue: Number;
 
       if (type === "out") {
         newStockValue =
-          currentStockTotal.quantity.valueOf() - quantity.valueOf();
+          currentStockQuantiry.valueOf() - receivQuantity.valueOf();
       } else if (type === "in") {
         newStockValue =
-          currentStockTotal.quantity.valueOf() + quantity.valueOf();
+          currentStockQuantiry.valueOf() + receivQuantity.valueOf();
       }
 
       await ingredientCurrentStockRepository.updateByIngredientId({
         ingredient_id,
-        quantity: newStockValue,
+        quantity: newStockValue.toString(),
       });
     }
 
     const data = {
-      quantity,
+      quantity: receivQuantity.toString(),
       type,
     };
 

@@ -13,14 +13,24 @@ class ProductCompositionRepository implements IProductComposition {
     return productComp;
   }
 
-  async update(
-    ...args: IProductCompositionDTO[]
-  ): Promise<Boolean> {
-    const productComp = await ProductCompositionSchema.updateMany({}, args, {
-      upsert: true,
-    });
+  async update({
+    product_id,
+    ingredient_id,
+    ingredient_quantity,
+  }: IProductCompositionDTO): Promise<Boolean> {
+    const productComp = await ProductCompositionSchema.updateOne(
+      { product_id, ingredient_id },
+      { ingredient_quantity }
+    );
 
-    console.log(productComp);
+    return !!productComp;
+  }
+
+  async delete(product_id: string, ingredient_id: string): Promise<Boolean> {
+    const productComp = await ProductCompositionSchema.deleteOne({
+      product_id,
+      ingredient_id,
+    });
 
     return !!productComp;
   }

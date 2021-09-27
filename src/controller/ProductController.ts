@@ -6,6 +6,7 @@ import { CreateProductService } from "../services/product/CreateProductService";
 import { ListAllProducts } from "../services/product/ListAllProducts";
 import { UpdateProductService } from "../services/product/UpdateProductService";
 import { DeleteProductService } from "../services/product/DeleteProductService";
+import { AvailabilityProductService } from "../services/product/AvailabilityProductService";
 
 const productRepository = new ProductRepository();
 
@@ -47,6 +48,17 @@ class ProductController {
     await deleteProductService.execute(id);
 
     return response.send();
+  }
+
+  async availability(request: Request, response: Response) {
+    const { id } = request.params;
+    const availabilityProductService = new AvailabilityProductService(
+      productRepository
+    );
+
+    const products = await availabilityProductService.execute(id);
+
+    return response.json(products);
   }
 }
 
