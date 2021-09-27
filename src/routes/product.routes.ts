@@ -30,6 +30,8 @@ productRoutes.delete(
   productCompositionController.delete
 );
 
+productRoutes.get("/cost", authMiddleware, productController.cost);
+
 productRoutes.get("/availability/:id", productController.availability);
 
 productRoutes.get("/", productController.listAll);

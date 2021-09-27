@@ -2,7 +2,7 @@ import { IProduct } from "../../repositories/product/IProduct";
 
 interface IResponse {
   name: string;
-  price: Number;
+  price: string;
 }
 
 class ListAllProducts {

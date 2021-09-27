@@ -1,8 +1,14 @@
 import { ProductRepository } from "../../repositories/product/ProductRepository";
 
+import { AppError } from '../../errors/AppError'
 class AvailabilityProductService {
   constructor(private productRepository: ProductRepository) {}
   async execute(id: string) {
+    
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      throw new AppError("Ingredient not found", 404);
+    }
+
     const product = await this.productRepository.availability(id);
 
     const { name, price, ingredients } = product;

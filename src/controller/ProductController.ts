@@ -7,6 +7,7 @@ import { ListAllProducts } from "../services/product/ListAllProducts";
 import { UpdateProductService } from "../services/product/UpdateProductService";
 import { DeleteProductService } from "../services/product/DeleteProductService";
 import { AvailabilityProductService } from "../services/product/AvailabilityProductService";
+import { ProductCostService } from "../services/product/ProductCostService";
 
 const productRepository = new ProductRepository();
 
@@ -57,6 +58,16 @@ class ProductController {
     );
 
     const products = await availabilityProductService.execute(id);
+
+    return response.json(products);
+  }
+
+  async cost(request: Request, response: Response) {
+    const productCostService = new ProductCostService(
+      productRepository
+    );
+
+    const products = await productCostService.execute();
 
     return response.json(products);
   }

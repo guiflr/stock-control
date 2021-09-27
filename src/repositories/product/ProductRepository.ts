@@ -54,6 +54,18 @@ class ProductRepository implements IProduct {
 
     return products;
   }
+
+  async cost() {
+    const products = await ProductSchema.find().populate({
+      path: "ingredients",
+      select: "product_id  ingredient_id ingredient_quantity -_id",
+      populate: {
+        path: "ingredient ingredient_current_stock",
+      },
+    });
+
+    return products;
+  }
 }
 
 export { ProductRepository };
